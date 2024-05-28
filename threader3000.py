@@ -24,15 +24,32 @@ def main():
     socket.setdefaulttimeout(0.30)
     print_lock = threading.Lock()
     discovered_ports = []
-
+    ascii_art = r"""
+       (  )   /\   _                 (     
+        \ |  (  \ ( \.(               )                      _____
+      \  \ \  `  `   ) \             (  ___                 / _   \
+     (_`    \+   . x  ( .\            \/   \____-----------/ (o)   \_
+    - .-               \+  ;          (  O                           \____
+                              )        \_____________  `              \  /
+    (__                +- .( -'.- <. - _  VVVVVVV VV V\                 \/
+    (_____            ._._: <_ - <- _  (--  _AAAAAAA__A_/                  |
+      .    /./.+-  . .- /  +--  - .     \______________//_              \_______
+      (__ ' /x  / x _/ (                                  \___'          \     /
+     , x / ( '  . / .  /                                      |           \   /
+        /  /  _/ /    +                                      /              \/
+       '  (__/                                             /                  \
+    """
 # Welcome Banner
-    print("-" * 60)
+    print("")
     print("        Threader 3000 - Multi-threaded Port Scanner          ")
-    print("                       Version 1.0.7                    ")
+    print(ascii_art)
+    print("                       Version 1.0.8                    ")
     print("                   A project by The Mayor               ")
-    print("-" * 60)
+    print("                   Modified by Jackmeister               ")
+    print("")
     time.sleep(1)
-    target = input("Enter your target IP address or URL here: ")
+   
+    target = sys.argv[1]
     error = ("Invalid Input")
     try:
         t_ip = socket.gethostbyname(target)
@@ -40,10 +57,9 @@ def main():
         print("\n[-]Invalid format. Please use a correct IP or web address[-]\n")
         sys.exit()
     #Banner
-    print("-" * 60)
     print("Scanning target "+ t_ip)
     print("Time started: "+ str(datetime.now()))
-    print("-" * 60)
+    print("-" * 100)
     t1 = datetime.now()
 
     def portscan(port):
@@ -84,50 +100,24 @@ def main():
     total = t2 - t1
     print("Port scan completed in "+str(total))
     print("-" * 60)
-    print("Threader3000 recommends the following Nmap scan:")
+    print("Following Nmap command will be runned:")
     print("*" * 60)
-    print("nmap -p{ports} -sV -sC -T4 -Pn -oA {ip} {ip}".format(ports=",".join(discovered_ports), ip=target))
+    print("nmap -p{ports} -sV -sC -T4 -Pn -oN {ip}-nmap {ip}".format(ports=",".join(discovered_ports), ip=target))
     print("*" * 60)
-    nmap = "nmap -p{ports} -sV -sC -T4 -Pn -oA {ip} {ip}".format(ports=",".join(discovered_ports), ip=target)
+    nmap = "nmap -p{ports} -sV -sC -T4 -Pn -oN {ip}-nmap {ip}".format(ports=",".join(discovered_ports), ip=target)
     t3 = datetime.now()
     total1 = t3 - t1
 
 #Nmap Integration (in progress)
 
     def automate():
-       choice = '0'
-       while choice =='0':
-          print("Would you like to run Nmap or quit to terminal?")
-          print("-" * 60)
-          print("1 = Run suggested Nmap scan")
-          print("2 = Run another Threader3000 scan")
-          print("3 = Exit to terminal")
-          print("-" * 60)
-          choice = input("Option Selection: ")
-          if choice == "1":
-             try:
-                print(nmap)
-                os.mkdir(target)
-                os.chdir(target)
                 os.system(nmap)
-                #convert = "xsltproc "+target+".xml -o "+target+".html"
-                #os.system(convert)
                 t3 = datetime.now()
                 total1 = t3 - t1
                 print("-" * 60)
                 print("Combined scan completed in "+str(total1))
-                print("Press enter to quit...")
-                input()
-             except FileExistsError as e:
-                print(e)
-                exit()
-          elif choice =="2":
-             main()
-          elif choice =="3":
-             sys.exit()
-          else:
-             print("Please make a valid selection")
-             automate()
+                quit()
+         
     automate()
 
 if __name__ == '__main__':
