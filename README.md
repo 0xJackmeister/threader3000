@@ -3,6 +3,9 @@
 
 Threader3000 is a script written in Python3 that allows multi-threaded port scanning.  The program is interactive and simply requires you to run it to begin.  Once started, you will be asked to input an IP address or a FQDN as Threader3000 does resolve hostnames.  A full port scan can take as little as 15 seconds, but at max should take less than 1 minute 30 seconds depending on your internet connection.
 
+### Reason of modification
+- Automation to save time
+
 ## Requirements
 Python3 must be installed on your system in order to function
 Pip3 for installation via PyPi repository
@@ -30,6 +33,13 @@ You can add Threader3000 to run from any directory by adding a symbolic link:
 ```bash
 sudo ln -s $(pwd)/threader3000.py /usr/local/bin/threader3000
 ```
+
+## New Usage
+
+```bash
+threader3000 target-ip
+```
+it will auto save nmap result using `-oN` option on current working directory with file name (Supplied IP / Domain)-nmap eg: 127.0.0.1-nmap
 
 ## FAQ
 
